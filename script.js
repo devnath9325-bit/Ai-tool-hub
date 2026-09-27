@@ -1,73 +1,46 @@
-function openTool(tool) {
-  const box = document.getElementById("toolBox");
+const API_URL="https://script.google.com/macros/s/AKfycbx-lkSGcKbF9EAjrL_9Sa7vsYTMobE2Ka667-EpVVmvajlJCpT1wB0aykbptoEErVI/exec";
 
-  const tools = {
-    chat: {
-      title: "🤖 AI Chat",
-      placeholder: "Apna question yahan likho..."
-    },
-    script: {
-      title: "✍️ Script Writer",
-      placeholder: "Kis topic par script chahiye?"
-    },
-    translate: {
-      title: "🌐 Translator",
-      placeholder: "Text yahan paste karo..."
-    },
-    content: {
-      title: "📝 Content Writer",
-      placeholder: "Kis topic par content chahiye?"
-    },
-    summary: {
-      title: "📄 Summarizer",
-      placeholder: "Text yahan paste karo..."
-    },
-    image: {
-      title: "🖼️ AI Image",
-      placeholder: "Image ka description likho..."
-    },
-    voice: {
-      title: "🎙️ AI Voice",
-      placeholder: "Voice ke liye text likho..."
-    }
-  };
+function openTool(tool){
+const box=document.getElementById("toolBox");
 
-  const selected = tools[tool];
-
-  box.innerHTML = `
-    <h2>${selected.title}</h2>
-
-    <textarea
-      id="userInput"
-      placeholder="${selected.placeholder}"
-      rows="7"
-      style="width:100%;padding:15px;font-size:16px;box-sizing:border-box;border-radius:10px;"
-    ></textarea>
-
-    <br><br>
-
-    <button onclick="runTool('${tool}')"
-      style="padding:12px 25px;font-size:16px;border:0;border-radius:8px;cursor:pointer;">
-      Generate
-    </button>
-
-    <div id="result"
-      style="margin-top:20px;padding:15px;white-space:pre-wrap;">
-    </div>
-  `;
+if(tool==="chat"){
+box.innerHTML=`
+<h2>🤖 AI Chat</h2>
+<textarea id="chatInput" placeholder="Apna question yahan likho..." style="width:100%;height:120px;padding:12px;font-size:16px;box-sizing:border-box;"></textarea>
+<button onclick="askAI()" style="margin-top:12px;padding:12px 25px;font-size:16px;">Send 🚀</button>
+<div id="chatResult" style="margin-top:20px;"></div>`;
+}else{
+box.innerHTML=`<h2>🛠️ ${tool}</h2><p>Ye tool hum next step mein working karenge.</p>`;
+}
 }
 
-function runTool(tool) {
-  const input = document.getElementById("userInput").value.trim();
-  const result = document.getElementById("result");
+async function askAI(){
+const input=document.getElementById("chatInput");
+const result=document.getElementById("chatResult");
+const prompt=input.value.trim();
 
-  if (!input) {
-    result.innerText = "⚠️ Pehle kuch text likho.";
-    return;
-  }
+if(!prompt){
+result.innerHTML="<p>Please enter a question.</p>";
+return;
+}
 
-  result.innerText =
-    "⏳ Processing...\n\n" +
-    "Tool: " + tool + "\n" +
-    "Your request: " + input;
+result.innerHTML="<p>🤔 AI soch raha hai...</p>";
+
+try{
+const response=await fetch(API_URL,{
+method:"POST",
+headers:{"Content-Type":"text/plain"},
+body:JSON.stringify({prompt:prompt})
+});
+
+const data=await response.json();
+
+if(data.answer){
+result.innerHTML=`<div style="padding:15px;background:#f1f1f1;border-radius:10px;">${data.answer.replace(/\n/g,"<br>")}</div>`;
+}else{
+result.innerHTML="<p>❌ AI response nahi mila.</p>";
+}
+}catch(error){
+result.innerHTML="<p>❌ Connection error.</p>";
+}
 }
