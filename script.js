@@ -1,4 +1,4 @@
-const API_URL="https://script.google.com/macros/s/AKfycbzZcYg95qF3X3tO9U_ylN6bRYj9YDMWEcQb7f6hKAUxzG83mJE7UICYVxa70Dja_4Xj/exec";
+const API_URL="https://script.google.com/macros/s/AKfycbwr9HtXaVemhQ_hw0yECjj5xvFS2WDARBOMa-SZqTlZqO3y6oEGgg-dABa4V6utBg4/exec
 
 function openTool(tool){
 const box=document.getElementById("toolBox");
