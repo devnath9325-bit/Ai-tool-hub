@@ -1,5 +1,6 @@
-const API_URL="const API_URL="https://script.google.com/macros/s/AKfycbzZcYg95qF3X3tO9U_ylN6bRYj9YDMWEcQb7f6hKAUxzG83mJE7UICYVxa70Dja_4Xj/exec";
-function openTool(tool)
+const API_URL="https://script.google.com/macros/s/AKfycbzZcYg95qF3X3tO9U_ylN6bRYj9YDMWEcQb7f6hKAUxzG83mJE7UICYVxa70Dja_4Xj/exec";
+
+function openTool(tool){
 const box=document.getElementById("toolBox");
 
 if(tool==="chat"){
